@@ -11,6 +11,7 @@ import Parquet.Decoder
 import Test.Hspec
 import Test.Hspec.QuickCheck
 import Test.QuickCheck
+import Parquet.Prelude
 
 spec :: Spec
 spec = describe "Decoder" $ do

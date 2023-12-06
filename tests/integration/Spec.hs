@@ -26,6 +26,7 @@ import System.FilePath ((</>))
 import System.Process
 import Test.Hspec
 import Text.Pretty.Simple (pString)
+import Parquet.Prelude
 
 testPath :: String
 testPath = "tests" </> "integration"
@@ -95,5 +96,6 @@ main = hspec $
           Right v -> do
             origJson :: Maybe JSON.Value <- JSON.decode <$> LBS.readFile (testDataPath </> "input1.json")
             closePrematurely
+            putStrLn $ show (JSON.encode v)
             Just (JSON.encode v) `shouldBe` (JSON.encode <$> origJson)
         pure ()

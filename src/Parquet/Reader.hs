@@ -120,7 +120,7 @@ instruction: IObjectField "element"
 > (r: 0, d: 2, v: 3, p: [list, element])
 instruction: INewList
 (Note: repetition level is 0 and the type is REPEATED, so create a new list.)
-{f1: [{ element: [{ element: 1 }, { element: 2 }] }, { element: [_?_]}]}
+f1: [{ element: [{ element: 1 }, { element: 2 }] }, { element: [_?_]}]}
 > (r: 0, d: 1, v: 3, p: [element])
 instruction: IObjectField "element"
 {f1: [{ element: [{ element: 1 }, { element: 2 }] }, { element: [{ element: _?_ }]}]}
@@ -142,7 +142,7 @@ import qualified Data.Binary.Get as BG
 import qualified Data.ByteString.Char8 as BS8
 import qualified Data.Conduit.Binary as CB
 import qualified Data.Conduit.List as CL
-import qualified Data.HashMap.Strict as HM
+import qualified Data.Map.Strict as MS
 import qualified Data.Map as M
 import qualified Data.Sequence as Seq
 import qualified Data.Text as T
@@ -270,7 +270,7 @@ readWholeParquetFile inputFp = do
 
 ------------------------------------------------------------------------------
 convertLiteralJsonLists :: ParquetValue -> ParquetValue
-convertLiteralJsonLists (ParquetObject (MkParquetObject (HM.toList -> [("element", parquetValue)]))) =
+convertLiteralJsonLists (ParquetObject (MkParquetObject (MS.toList -> [("element", parquetValue)]))) =
   convertLiteralJsonLists parquetValue
 convertLiteralJsonLists (ParquetObject (MkParquetObject kvMapping)) =
   ParquetObject $ MkParquetObject $ convertLiteralJsonLists <$> kvMapping

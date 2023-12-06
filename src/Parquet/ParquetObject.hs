@@ -13,11 +13,12 @@ where
 
 import Control.Lens (makeLenses, makePrisms)
 import qualified Data.Aeson as JSON
+import qualified Data.Aeson.KeyMap as JSON
 import Data.Binary (Binary (get, put))
 import Parquet.Prelude hiding (get, put)
 
 ------------------------------------------------------------------------------
-newtype ParquetObject = MkParquetObject (HashMap Text ParquetValue)
+newtype ParquetObject = MkParquetObject (Map Text ParquetValue)
   deriving (Eq, Show, Generic, Serialise)
 
 instance Semigroup ParquetObject where
@@ -64,7 +65,7 @@ data ParquetValue
 instance FromJSON ParquetValue where
   parseJSON = \case
     JSON.Object obj -> do
-      ParquetObject . MkParquetObject <$> traverse parseJSON obj
+      ParquetObject . MkParquetObject . JSON.toMapText <$> traverse parseJSON obj
     JSON.Array vec -> do
       ParquetList . MkParquetList . toList <$> traverse parseJSON vec
     JSON.Number sci ->
